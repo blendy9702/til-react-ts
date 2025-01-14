@@ -150,3 +150,39 @@ createRoot(document.getElementById("root")!).render(
   </RecoilRoot>,
 );
 ```
+
+## tsconfig.app.json 을 통한 js 사용 설정
+
+```json
+// 추가 설정
+"allowJs": true,
+```
+
+## proxy 사용 설정
+
+- vite.config.js
+
+```ts
+import { defineConfig } from "vite";
+import react from "@vitejs/plugin-react";
+import tailwindcss from "tailwindcss";
+
+// https://vite.dev/config/
+export default defineConfig({
+  plugins: [react()],
+  css: {
+    postcss: {
+      plugins: [tailwindcss()],
+    },
+  },
+  server: {
+    proxy: {
+      "/api": {
+        target: "http://192.168.0.144:5214",
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
+});
+```
